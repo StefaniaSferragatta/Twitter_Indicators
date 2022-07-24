@@ -25,3 +25,18 @@ def less_connected_comunities(G,threshold = 5):
     # remove filtered edges from graph G
     G.remove_edges_from(le_ids)
     G.remove_nodes_from(list(nx.isolates(G)))
+
+def given_hashtag_return_community(hashtags, communities = communities):
+    for hashtag in set(hashtags):
+        for community in communities:
+            if hashtag in community:
+                return communities.index(community)
+
+def create_labels_matrix(df1_aggr):
+    #Initialize the labels matrix 
+    labels = [[] for x in range(0, len(df1_lemmatized))]
+    for id, row in df1_aggr.iterrows():
+        community_index = graph_functions.given_hashtag_return_community(row['hashtag'])
+        if community_index:
+            labels[id].append(community_index)
+    return labels
